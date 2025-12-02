@@ -8,11 +8,15 @@ import com.example.ITPMongoDB.repository.UserRepository;
 import com.example.ITPMongoDB.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -23,11 +27,14 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     @Override
-    public List<UserResponse> findAll() {
+    public Page<UserResponse> findAll(int page, int size) {
 
-        List<User> users = userRepository.findAll();
+        Sort sortByName = Sort.by(Sort.Direction.ASC, "name");
+        Pageable pageable = PageRequest.of(page, size, sortByName);
 
-        return users.stream().map(userMapper::toUserResponse).toList();
+        Page<User> users = userRepository.findAll(pageable);
+
+        return users.map(userMapper::toUserResponse);
     }
 
     @Override

@@ -1,15 +1,13 @@
 package com.example.ITPMongoDB.service;
-
-import com.example.ITPMongoDB.domain.User;
 import com.example.ITPMongoDB.dto.UserRequest;
 import com.example.ITPMongoDB.dto.UserResponse;
+import org.springframework.data.domain.Page;
 
-import java.util.List;
 
 public interface UserService {
 
     // Find All User
-    List<UserResponse> findAll();
+    Page<UserResponse> findAll(int page, int size);
 
     // Find UserById
     UserResponse findById(String id);

@@ -4,10 +4,10 @@ import com.example.ITPMongoDB.dto.UserRequest;
 import com.example.ITPMongoDB.dto.UserResponse;
 import com.example.ITPMongoDB.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,8 +17,11 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public List<UserResponse> getAllUsers() {
-        return userService.findAll();
+    public Page<UserResponse> findAll(
+            @RequestParam(required = false, defaultValue = "0")int page,
+            @RequestParam(required = false, defaultValue = "25")int size
+    ) {
+        return userService.findAll(page,size);
     }
 
     @GetMapping("/{id}")
