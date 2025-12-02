@@ -1,5 +1,6 @@
 package com.example.ITPMongoDB.controller;
 
+import com.example.ITPMongoDB.dto.FilterDto;
 import com.example.ITPMongoDB.dto.UserRequest;
 import com.example.ITPMongoDB.dto.UserResponse;
 import com.example.ITPMongoDB.service.UserService;
@@ -15,6 +16,16 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+
+
+    @PostMapping("/filter")
+    public Page<UserResponse>filterUsers(
+            @RequestBody FilterDto filterDto,
+            @RequestParam(required = false, defaultValue = "0")int page,
+            @RequestParam(required = false, defaultValue = "25")int size
+            ){
+        return userService.filterUsers(filterDto,page,size);
+    }
 
     @GetMapping
     public Page<UserResponse> findAll(
