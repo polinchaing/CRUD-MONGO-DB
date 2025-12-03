@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
         Sort sortByName = Sort.by(Sort.Direction.ASC, "name");
         Pageable pageable = PageRequest.of(page, size, sortByName);
 
-        Page<User>filteredUsers = userRepository.findAllWithFilter(User.class,
+        Page<User> filteredUsers = userRepository.findAllWithFilter(User.class,
                 FilteringFactory.parseFromParams(filterDto.filter(),User.class),pageable
                 );
 
